@@ -1,5 +1,6 @@
 package com.example.android_fundamentals_041_clickable_images;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final static String EXTRA_ORDER_MESSAGE_MAIN_ACT = "MainActivity.extra.mOrderMessage";
+    private String mOrderMessage = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent (MainActivity.this, Act2.class);
+                startActivity(intent);
             }
         });
     }
@@ -38,23 +42,34 @@ public class MainActivity extends AppCompatActivity {
 
     public void takeOrder(View view){
 
-        String message;
-
         switch (view.getId())
         {
             case R.id.iV_donut:
-                message = getString(R.string.donut_order_message);
+                mOrderMessage = getString(R.string.donut_order_message);
                 break;
             case R.id.iV_ice_cream:
-                message = getString(R.string.ice_cream_order_message);
+                mOrderMessage = getString(R.string.ice_cream_order_message);
                 break;
             case R.id.iV_froyo:
-                message = getString((R.string.froyo_order_message));
+                mOrderMessage = getString((R.string.froyo_order_message));
                 break;
             default:
-                message = "No order taken";
+                mOrderMessage = "No order taken";
         }
+        startAct2WithOrder(EXTRA_ORDER_MESSAGE_MAIN_ACT, mOrderMessage);
+    }
 
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+    /**
+     * this method pass a string to an intent and then starts a new activity with the extra put in that intent.
+     *
+     * @param message pass a string to the second activity
+     * @param key with the right key to get it from the bunlde in the second activity
+     */
+
+    private void startAct2WithOrder(String key, String message){
+
+        Intent intent = new Intent (MainActivity.this, Act2.class);
+        intent.putExtra(key,message);
+        startActivity(intent);
     }
 }
