@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "Android-fundamentals-04.1-Clickable-images"
